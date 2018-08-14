@@ -86,7 +86,7 @@ export default class View {
 
     Array
       .from(domHelper.findAll('li', this._listWrap))
-      .forEach(this._attachEvents);
+      .forEach((li) => this._attachEvents(li));
   }
 
   renderItem(item) {
@@ -99,10 +99,10 @@ export default class View {
 
   _attachEvents(target) {
     const deleteBtn = domHelper.find('.btn_mail_delete', target);
-    domHelper.attachEvent(li, 'click', this._handleClick);
-    domHelper.attachEvent(li, 'dragstart', this._handleDragStart);
-    domHelper.attachEvent(li, 'dragover', this._handleDragOver);
-    domHelper.attachEvent(li, 'dragend', this._handleDragEnd);
+    domHelper.attachEvent(target, 'click', this._handleClick);
+    domHelper.attachEvent(target, 'dragstart', this._handleDragStart);
+    domHelper.attachEvent(target, 'dragover', this._handleDragOver);
+    domHelper.attachEvent(target, 'dragend', this._handleDragEnd);
     domHelper.attachEvent(deleteBtn, 'click', this._handleDelete);
   }
 
