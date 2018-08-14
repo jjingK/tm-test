@@ -1,9 +1,9 @@
 ## Improve
 
-- [ ] 구조
+- [v] 구조 개선 (Controller 추가)
+- [v] 뷰 안에 데이터 처리 분리
 - [ ] React로 개발
 - [ ] 순서 변경 후 로컬 데이터 업데이트
-- [ ] 뷰 안에 컨트롤러 기능이 뒤죽박죽
 
 ## BugFixs
 
@@ -12,8 +12,8 @@
 
 ## Review
 
-- [closet](https://developer.mozilla.org/en-US/docs/Web/API/Element/closest)
-- [offset, page, screen, client] client 브라우저 기준 좌표 | offset 이벤트 대상 기준 좌표 | page 문서 기준 | screen 보이는 화면 기준
+- [Closet](https://developer.mozilla.org/en-US/docs/Web/API/Element/closest)
+- [Offset, Page, Screen, Client] client 브라우저 기준 좌표 | offset 이벤트 대상 기준 좌표 | page 문서 기준 | screen 보이는 화면 기준
 - insertBefore, element x, y 구하기
 
 

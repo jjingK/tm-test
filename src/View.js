@@ -1,4 +1,3 @@
-import EmailList from './EmailList';
 import { domHelper, getOffsetParent } from './helpers';
 
 export default class View {
