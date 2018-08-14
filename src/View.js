@@ -2,12 +2,7 @@ import EmailList from './EmailList';
 import { domHelper, getOffsetParent } from './helpers';
 
 export default class View {
-  constructor(data) {
-    if (!data instanceof EmailList) {
-      throw new Error('This must be an instance of the EmailList');
-    }
-    this._data = data;
-    this._list = data.list;
+  constructor() {
     this._listWrap = domHelper.find('.list_wrap');
     this._contentWrap = domHelper.find('.wrap_right');
 
@@ -21,13 +16,10 @@ export default class View {
   _handleClick(event) {
     const li = domHelper.parent(event.target, 'LI');
     const { uuid } = li.dataset;
-    const item = this._data.getItemById(uuid);
 
-    // selected
-    this._data.selectedById(uuid);
     li.classList.add('select');
 
-    this._contentWrap.innerHTML = this._makeTemplate('content', item);
+    this.onSelectItem && this.onSelectItem(uuid);
   }
 
   _handleDragStart(event) {
@@ -70,10 +62,10 @@ export default class View {
     event.stopPropagation();
     const li = domHelper.parent(event.target, 'LI');
     const uuid = li.dataset.uuid;
-    this._data.removeItemById(uuid);
 
-    li.style.display = 'none';
-    this._contentWrap.innerHTML = '';
+    li.remove();
+
+    this.onDeleteItem && this.onDeleteItem(uuid);
   }
 
   _clone(element) {
@@ -84,21 +76,11 @@ export default class View {
     this._cloneItem.classList.add('dragging');
   }
 
-  _cloneAttachEvents() {
-    const li = this._cloneItem;
-    const deleteBtn = domHelper.find('.btn_mail_delete', li);
-    domHelper.attachEvent(li, 'click', this._handleClick);
-    domHelper.attachEvent(li, 'dragstart', this._handleDragStart);
-    domHelper.attachEvent(li, 'dragover', this._handleDragOver);
-    domHelper.attachEvent(li, 'dragend', this._handleDragEnd);
-    domHelper.attachEvent(deleteBtn, 'click', this._handleDelete);
-  }
-
-  render() {
+  render(list) {
     this._listWrap.innerHTML = '';
     this._contentWrap.innerHTML = '';
 
-    this._list.reduce((wrapper, item) => {
+    list.reduce((wrapper, item) => {
       wrapper.innerHTML += this._makeTemplate('list', item);
       return wrapper;
     }, this._listWrap);
