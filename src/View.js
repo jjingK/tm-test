@@ -55,7 +55,7 @@ export default class View {
     this._dragItem.remove();
     this._cloneItem.classList.remove('dragging');
     this._cloneItem.draggable = 'true';
-    this._cloneAttachEvents();
+    this._attachEvents(this._cloneItem);
   }
 
   _handleDelete(event) {
@@ -85,21 +85,26 @@ export default class View {
       return wrapper;
     }, this._listWrap);
 
-    this._attachEvents();
-  }
-
-  _attachEvents() {
     Array
       .from(domHelper.findAll('li', this._listWrap))
-      .forEach(li => {
-        const deleteBtn = domHelper.find('.btn_mail_delete', li);
-        domHelper.attachEvent(li, 'click', this._handleClick);
-        domHelper.attachEvent(li, 'dragstart', this._handleDragStart);
-        domHelper.attachEvent(li, 'dragover', this._handleDragOver);
-        domHelper.attachEvent(li, 'dragend', this._handleDragEnd);
-        domHelper.attachEvent(deleteBtn, 'click', this._handleDelete);
-      });
-    // domHelper.find('li:first-child').click();
+      .forEach(this._attachEvents);
+  }
+
+  renderItem(item) {
+    this._contentWrap.innerHTML = this._makeTemplate('content', item);
+  }
+
+  resetItem() {
+    this._contentWrap.innerHTML = '';
+  }
+
+  _attachEvents(target) {
+    const deleteBtn = domHelper.find('.btn_mail_delete', target);
+    domHelper.attachEvent(li, 'click', this._handleClick);
+    domHelper.attachEvent(li, 'dragstart', this._handleDragStart);
+    domHelper.attachEvent(li, 'dragover', this._handleDragOver);
+    domHelper.attachEvent(li, 'dragend', this._handleDragEnd);
+    domHelper.attachEvent(deleteBtn, 'click', this._handleDelete);
   }
 
   _makeTemplate(type, item) {
